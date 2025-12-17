@@ -15,3 +15,9 @@ export interface NotesResponse {
   perPage: number;
   totalPages: number;
 }
+
+export interface CreateNotePayload {
+  title: string;
+  content: string;
+  tag: NoteTag;
+}

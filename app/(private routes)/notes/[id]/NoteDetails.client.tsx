@@ -1,8 +1,9 @@
+// app/(private routes)/notes/[id]/NoteDetails.client.tsx
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
 import { useParams, useRouter } from "next/navigation";
-import { fetchNoteById } from "@/lib/api";
+import { fetchNoteById } from "@/lib/api/clientApi";
 import css from "./NoteDetails.module.css";
 
 export default function NoteDetailsClient() {

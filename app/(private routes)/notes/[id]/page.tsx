@@ -1,11 +1,11 @@
+// app/(private routes)/notes/[id]/page.tsx
 import { Metadata } from "next";
-import axios from "axios";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchNoteById } from "@/lib/api";
+import { fetchNoteById } from "@/lib/api/clientApi";
 import { notFound } from "next/navigation";
 import NoteDetailsClient from "./NoteDetails.client";
 
@@ -129,12 +129,7 @@ export default async function NoteDetailsPage({
   let note;
   try {
     note = await fetchNoteById(noteId);
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if (error.response?.status === 404) {
-        notFound();
-      }
-    }
+  } catch {
     notFound();
   }
 

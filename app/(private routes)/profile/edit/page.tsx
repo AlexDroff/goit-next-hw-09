@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getMe, updateMe } from "@/lib/api/clientApi";
 import Image from "next/image";
-import css from "./page.module.css";
+import css from "./EditProfilePage.module.css";
 
 export default function EditProfile() {
   const router = useRouter();
