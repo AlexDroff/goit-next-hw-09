@@ -3,37 +3,23 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { logout } from "@/lib/api/clientApi";
 import css from "./AuthNavigation.module.css";
 import { useAuthStore } from "@/lib/store/authStore";
 
 export default function AuthNavigation() {
   const router = useRouter();
-  const { isAuthenticated, user, setUser, clearUser } = useAuthStore();
-
-  useEffect(() => {
-    if (!isAuthenticated && user === null) {
-      fetch("/api/auth/session")
-        .then((res) => res.json())
-        .then(({ success }) => {
-          if (success) {
-            return fetch("/api/users/me", { credentials: "include" })
-              .then((res) => res.json())
-              .then((userData) => {
-                setUser(userData);
-              });
-          }
-        })
-        .catch(() => {
-          clearUser();
-        });
-    }
-  }, [isAuthenticated, user, setUser, clearUser]);
+  const { isAuthenticated, user, clearUser } = useAuthStore();
 
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    clearUser();
-    router.push("/sign-in");
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      clearUser();
+      router.push("/sign-in");
+    }
   };
 
   if (isAuthenticated && user) {

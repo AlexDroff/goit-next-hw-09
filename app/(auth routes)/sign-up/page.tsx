@@ -3,11 +3,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { register } from "@/lib/api/clientApi";
 import css from "./SignUpPage.module.css";
 
 export default function SignUp() {
   const router = useRouter();
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,20 +17,14 @@ export default function SignUp() {
     const password = formData.get("password") as string;
 
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Registration failed");
-      }
-
+      await register(email, password);
       router.push("/profile");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Unknown error");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Registration failed");
+      }
     }
   };
 

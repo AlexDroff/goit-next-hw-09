@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { checkSession } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 
 export default function AuthProvider({
@@ -13,25 +14,13 @@ export default function AuthProvider({
   const { setUser, clearUser } = useAuthStore();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const initializeAuth = async () => {
       try {
-        const sessionRes = await fetch("/api/auth/session", {
-          method: "GET",
-          credentials: "include",
-        });
-
-        if (!sessionRes.ok) {
-          clearUser();
-          setLoading(false);
-          return;
-        }
-
-        const text = await sessionRes.text();
-        if (text.trim() === "") {
-          clearUser();
-        } else {
-          const user = JSON.parse(text);
+        const user = await checkSession();
+        if (user) {
           setUser(user);
+        } else {
+          clearUser();
         }
       } catch {
         clearUser();
@@ -40,7 +29,7 @@ export default function AuthProvider({
       }
     };
 
-    checkAuth();
+    initializeAuth();
   }, [setUser, clearUser]);
 
   if (loading) {

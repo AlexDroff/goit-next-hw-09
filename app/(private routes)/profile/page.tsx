@@ -1,37 +1,28 @@
 // app/(private routes)/profile/page.tsx
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { getMe } from "@/lib/api/serverApi";
+import css from "./ProfilePage.module.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Profile | NoteHub",
   description: "View and edit your profile information.",
 };
 
 export default async function Profile() {
-  const res = await fetch("/api/users/me", {
-    credentials: "include",
-  });
-
-  if (!res.ok) {
-    return (
-      <main>
-        <p>
-          Not authorized. Please <Link href="/sign-in">log in</Link>.
-        </p>
-      </main>
-    );
-  }
-
-  const user = await res.json();
+  const user = await getMe();
 
   return (
-    <main>
-      <div>
-        <h1>Profile Page</h1>
-        <Link href="/profile/edit">Edit Profile</Link>
-      </div>
-      <div>
-        <div>
+    <main className={css.mainContent}>
+      <div className={css.profileCard}>
+        <div className={css.header}>
+          <h1 className={css.formTitle}>Profile Page</h1>
+          <Link href="/profile/edit" className={css.editProfileButton}>
+            Edit Profile
+          </Link>
+        </div>
+        <div className={css.avatarWrapper}>
           <Image
             src={
               user.avatar ||
@@ -40,10 +31,10 @@ export default async function Profile() {
             alt="User Avatar"
             width={120}
             height={120}
-            style={{ borderRadius: "50%" }}
+            className={css.avatar}
           />
         </div>
-        <div>
+        <div className={css.profileInfo}>
           <p>Username: {user.username || "—"}</p>
           <p>Email: {user.email}</p>
         </div>

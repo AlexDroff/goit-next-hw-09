@@ -1,10 +1,11 @@
+// app/(private routes)/notes/filter/[...slug]/page.tsx
 import type { Metadata } from "next";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/clientApi"; // ✅ Виправлено шлях
 import type { NoteTag } from "@/types/note";
 import NotesClient from "./Notes.client";
 

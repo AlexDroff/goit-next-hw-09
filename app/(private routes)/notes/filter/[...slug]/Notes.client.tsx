@@ -1,8 +1,9 @@
+// app/(private routes)/notes/filter/[...slug]/Notes.client.tsx
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchNotes } from "@/lib/api";
-import type { FetchNotesResponse } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/clientApi";
+import type { NotesResponse as FetchNotesResponse } from "@/types/note";
 import type { NoteTag } from "@/types/note";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -21,15 +22,10 @@ export default function NotesClient({ initialTag }: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [debouncedSearch] = useDebounce(search, 500);
 
-  const perPage = 12;
-
   const { data, isLoading, error } = useQuery<FetchNotesResponse>({
-    queryKey: [
-      "notes",
-      { tag: initialTag, search: debouncedSearch, page, perPage },
-    ],
+    queryKey: ["notes", { tag: initialTag, search: debouncedSearch, page }],
     queryFn: () =>
-      fetchNotes({ tag: initialTag, search: debouncedSearch, page, perPage }),
+      fetchNotes({ tag: initialTag, search: debouncedSearch, page }),
     staleTime: 5000,
     placeholderData: (prev) => prev,
   });

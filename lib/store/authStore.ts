@@ -1,11 +1,5 @@
-// lib/store/authStore.ts
 import { create } from "zustand";
-
-export type User = {
-  email: string;
-  username: string;
-  avatar?: string;
-};
+import type { User } from "@/types/user";
 
 type AuthStore = {
   isAuthenticated: boolean;
