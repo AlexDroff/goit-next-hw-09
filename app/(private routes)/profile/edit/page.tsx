@@ -1,14 +1,15 @@
-// app/(private routes)/profile/edit/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getMe, updateMe } from "@/lib/api/clientApi";
+import { useAuthStore } from "@/lib/store/authStore";
 import Image from "next/image";
 import css from "./EditProfilePage.module.css";
 
 export default function EditProfile() {
   const router = useRouter();
+  const { setUser } = useAuthStore();
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
@@ -38,7 +39,8 @@ export default function EditProfile() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await updateMe(userName);
+      const updatedUser = await updateMe(userName);
+      setUser(updatedUser);
       router.push("/profile");
     } catch (error) {
       console.error("Failed to update user:", error);

@@ -1,13 +1,14 @@
-// app/(auth routes)/sign-up/page.tsx
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { register } from "@/lib/api/clientApi";
+import { useAuthStore } from "@/lib/store/authStore";
 import css from "./SignUpPage.module.css";
 
 export default function SignUp() {
   const router = useRouter();
+  const { setUser } = useAuthStore();
   const [error, setError] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -17,7 +18,8 @@ export default function SignUp() {
     const password = formData.get("password") as string;
 
     try {
-      await register(email, password);
+      const user = await register(email, password);
+      setUser(user);
       router.push("/profile");
     } catch (err) {
       if (err instanceof Error) {
@@ -30,8 +32,9 @@ export default function SignUp() {
 
   return (
     <main className={css.mainContent}>
-      <h1 className={css.formTitle}>Sign up</h1>
       <form className={css.form} onSubmit={handleSubmit}>
+        <h1 className={css.formTitle}>Sign up</h1>
+
         <div className={css.formGroup}>
           <label htmlFor="email">Email</label>
           <input

@@ -1,4 +1,3 @@
-// app/(private routes)/notes/filter/[...slug]/Notes.client.tsx
 "use client";
 
 import { useQuery } from "@tanstack/react-query";

@@ -1,8 +1,7 @@
-// components/AuthProvider/AuthProvider.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { checkSession } from "@/lib/api/clientApi";
+import { checkSession, getMe } from "@/lib/api/clientApi";
 import { useAuthStore } from "@/lib/store/authStore";
 
 export default function AuthProvider({
@@ -16,8 +15,9 @@ export default function AuthProvider({
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        const user = await checkSession();
-        if (user) {
+        const session = await checkSession();
+        if (session) {
+          const user = await getMe();
           setUser(user);
         } else {
           clearUser();

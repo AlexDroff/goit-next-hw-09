@@ -1,11 +1,10 @@
-// app/(private routes)/notes/[id]/page.tsx
 import { Metadata } from "next";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { fetchNoteById } from "@/lib/api/clientApi";
+import { fetchNoteById } from "@/lib/api/serverApi";
 import { notFound } from "next/navigation";
 import NoteDetailsClient from "./NoteDetails.client";
 
@@ -137,10 +136,7 @@ export default async function NoteDetailsPage({
     notFound();
   }
 
-  await queryClient.prefetchQuery({
-    queryKey: ["note", noteId],
-    queryFn: () => fetchNoteById(noteId),
-  });
+  queryClient.setQueryData(["note", noteId], note);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

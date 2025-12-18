@@ -1,4 +1,3 @@
-// components/AuthNavigation/AuthNavigation.tsx
 "use client";
 
 import Link from "next/link";
@@ -18,7 +17,7 @@ export default function AuthNavigation() {
       console.error("Logout error:", error);
     } finally {
       clearUser();
-      router.push("/sign-in");
+      router.push("/");
     }
   };
 
