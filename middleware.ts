@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { checkSession } from "@/lib/api/serverApi";
 
 const privateRoutes = ["/profile", "/notes"];
 const publicRoutes = ["/sign-in", "/sign-up"];
@@ -24,24 +25,8 @@ export async function middleware(request: NextRequest) {
 
     if (refreshToken) {
       try {
-        const sessionRes = await fetch(
-          new URL("/api/auth/session", request.url),
-          {
-            method: "GET",
-            headers: {
-              Cookie: `refreshToken=${refreshToken}`,
-            },
-          }
-        );
-
-        if (sessionRes.ok) {
-          const setCookie = sessionRes.headers.get("set-cookie");
-          const response = NextResponse.next();
-          if (setCookie) {
-            response.headers.set("set-cookie", setCookie);
-          }
-          return response;
-        }
+        await checkSession();
+        return NextResponse.next();
       } catch {}
     }
 

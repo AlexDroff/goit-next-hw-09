@@ -1,38 +1,31 @@
 import { cookies } from "next/headers";
-import axios from "axios";
 import type { User } from "@/types/user";
+import type { Note } from "@/types/note";
+import { instance } from "./api";
 
-const baseURL = `${process.env.NEXT_PUBLIC_API_URL}/api`;
-
-const getServerApiInstance = async () => {
+const configureServerInstance = async () => {
   const cookieStore = await cookies();
-  const cookieEntries = cookieStore.getAll();
-  const cookiesString = cookieEntries
+  const cookiesList = cookieStore.getAll();
+  const cookiesString = cookiesList
     .map((c) => `${c.name}=${c.value}`)
     .join("; ");
-
-  return axios.create({
-    baseURL,
-    headers: {
-      Cookie: cookiesString,
-    },
-    withCredentials: true,
-  });
+  instance.defaults.headers.Cookie = cookiesString;
+  instance.defaults.withCredentials = true;
 };
 
 export const checkSession = async () => {
-  const api = await getServerApiInstance();
+  await configureServerInstance();
   try {
-    const response = await api.get<User | null>("/auth/session");
+    const response = await instance.get<User | null>("/auth/session");
     return response;
-  } catch (error) {
-    return error;
+  } catch {
+    return null;
   }
 };
 
 export const getMe = async () => {
-  const api = await getServerApiInstance();
-  const response = await api.get<User>("/users/me");
+  await configureServerInstance();
+  const response = await instance.get<User>("/users/me");
   return response.data;
 };
 
@@ -41,13 +34,13 @@ export const fetchNotes = async (params?: {
   tag?: string;
   page?: number;
 }) => {
-  const api = await getServerApiInstance();
-  const response = await api.get("/notes", { params });
+  await configureServerInstance();
+  const response = await instance.get("/notes", { params });
   return response.data;
 };
 
 export const fetchNoteById = async (id: string) => {
-  const api = await getServerApiInstance();
-  const response = await api.get(`/notes/${id}`);
+  await configureServerInstance();
+  const response = await instance.get<Note>(`/notes/${id}`);
   return response.data;
 };

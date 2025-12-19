@@ -125,18 +125,14 @@ export default async function NoteDetailsPage({
 
   const queryClient = new QueryClient();
 
-  let note;
   try {
-    note = await fetchNoteById(noteId);
+    await queryClient.prefetchQuery({
+      queryKey: ["note", noteId],
+      queryFn: () => fetchNoteById(noteId),
+    });
   } catch {
     notFound();
   }
-
-  if (!note) {
-    notFound();
-  }
-
-  queryClient.setQueryData(["note", noteId], note);
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

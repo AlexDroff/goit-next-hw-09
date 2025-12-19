@@ -17,10 +17,14 @@ export default async function NoteModalPage({
 
   const queryClient = new QueryClient();
 
-  const note = await fetchNoteById(noteId);
-  if (!note) notFound();
-
-  queryClient.setQueryData(["note", noteId], note);
+  try {
+    await queryClient.prefetchQuery({
+      queryKey: ["note", noteId],
+      queryFn: () => fetchNoteById(noteId),
+    });
+  } catch {
+    notFound();
+  }
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>

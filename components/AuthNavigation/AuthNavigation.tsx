@@ -17,7 +17,7 @@ export default function AuthNavigation() {
       console.error("Logout error:", error);
     } finally {
       clearUser();
-      router.push("/");
+      router.push("/sign-in");
     }
   };
 
