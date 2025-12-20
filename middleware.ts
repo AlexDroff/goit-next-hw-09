@@ -1,4 +1,3 @@
-// middleware.ts
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { checkSession } from "@/lib/api/serverApi";

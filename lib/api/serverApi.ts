@@ -1,4 +1,3 @@
-// lib/api/serverApi.ts
 import { cookies } from "next/headers";
 import type { User } from "@/types/user";
 import type { Note } from "@/types/note";
