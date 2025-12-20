@@ -1,3 +1,4 @@
+// middleware.ts
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { checkSession } from "@/lib/api/serverApi";
@@ -25,8 +26,19 @@ export async function middleware(request: NextRequest) {
 
     if (refreshToken) {
       try {
-        await checkSession();
-        return NextResponse.next();
+        const response = await checkSession();
+        if (response && response.headers && response.headers["set-cookie"]) {
+          const setCookie = response.headers["set-cookie"];
+          const nextResponse = NextResponse.next();
+          if (Array.isArray(setCookie)) {
+            setCookie.forEach((cookie) => {
+              nextResponse.headers.append("set-cookie", cookie);
+            });
+          } else {
+            nextResponse.headers.set("set-cookie", setCookie);
+          }
+          return nextResponse;
+        }
       } catch {}
     }
 

@@ -1,31 +1,34 @@
+// lib/api/serverApi.ts
 import { cookies } from "next/headers";
 import type { User } from "@/types/user";
 import type { Note } from "@/types/note";
 import { instance } from "./api";
 
-const configureServerInstance = async () => {
+const getHeadersWithCookies = async () => {
   const cookieStore = await cookies();
   const cookiesList = cookieStore.getAll();
   const cookiesString = cookiesList
     .map((c) => `${c.name}=${c.value}`)
     .join("; ");
-  instance.defaults.headers.Cookie = cookiesString;
-  instance.defaults.withCredentials = true;
+  return {
+    Cookie: cookiesString,
+  };
 };
 
 export const checkSession = async () => {
-  await configureServerInstance();
-  try {
-    const response = await instance.get<User | null>("/auth/session");
-    return response;
-  } catch {
-    return null;
-  }
+  const headers = await getHeadersWithCookies();
+  return instance.get<User | null>("/auth/session", {
+    headers,
+    withCredentials: true,
+  });
 };
 
 export const getMe = async () => {
-  await configureServerInstance();
-  const response = await instance.get<User>("/users/me");
+  const headers = await getHeadersWithCookies();
+  const response = await instance.get<User>("/users/me", {
+    headers,
+    withCredentials: true,
+  });
   return response.data;
 };
 
@@ -34,13 +37,20 @@ export const fetchNotes = async (params?: {
   tag?: string;
   page?: number;
 }) => {
-  await configureServerInstance();
-  const response = await instance.get("/notes", { params });
+  const headers = await getHeadersWithCookies();
+  const response = await instance.get("/notes", {
+    params,
+    headers,
+    withCredentials: true,
+  });
   return response.data;
 };
 
 export const fetchNoteById = async (id: string) => {
-  await configureServerInstance();
-  const response = await instance.get<Note>(`/notes/${id}`);
+  const headers = await getHeadersWithCookies();
+  const response = await instance.get<Note>(`/notes/${id}`, {
+    headers,
+    withCredentials: true,
+  });
   return response.data;
 };
