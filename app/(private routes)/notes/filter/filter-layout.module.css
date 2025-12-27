@@ -3,6 +3,8 @@
   min-height: 100vh;
   padding: 1rem;
   gap: 2rem;
+  margin-top: 32px;
+  justify-content: center;
 }
 
 .sidebar {
@@ -12,5 +14,6 @@
 
 .main {
   flex: 1;
-  max-width: 800px;
+  max-width: 1440px;
+  align-items: center;
 }

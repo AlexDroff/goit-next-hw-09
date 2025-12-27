@@ -1,10 +1,8 @@
 .container {
-  max-width: 1140px;
-  margin: 32px auto;
-  padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: stretch;
 }
 .controlsRow {
   display: flex;
@@ -21,7 +19,7 @@
 
 .createButton {
   padding: 8px 16px;
-  background-color: #0070f3;
+  background-color: #75b5fb;
   color: white;
   border: none;
   border-radius: 4px;
@@ -49,10 +47,10 @@
 }
 
 .currentPage {
-  background: #0070f3;
+  background: #75b5fb;
   color: white;
-  border-color: #0070f3;
-  cursor: default;
+  border-color: #75b5fb;
+  cursor: pointer;
 }
 
 .pageButton:hover:not(:disabled) {
@@ -67,7 +65,7 @@
 .filterButton {
   padding: 8px 16px;
   color: white;
-  background-color: #0070f3;
+  background-color: #75b5fb;
   border: none;
   border-radius: 4px;
   cursor: pointer;

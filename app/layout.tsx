@@ -1,4 +1,3 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import TanstackProvider from "@/components/TanStackProvider/TanStackProvider";
@@ -17,6 +16,9 @@ const roboto = Roboto({
 export const metadata: Metadata = {
   title: "NoteHub",
   description: "Your personal note-taking app powered by GoIT",
+  icons: {
+    icon: "/favicon.svg",
+  },
   openGraph: {
     title: "NoteHub",
     description: "Your personal note-taking app powered by GoIT",

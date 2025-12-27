@@ -47,7 +47,7 @@
 }
 
 .viewDetails {
-  color: #005fec;
+  color: #75b5fb;
   border: none;
   font-size: 0.9rem;
   font-weight: 500;
@@ -57,7 +57,7 @@
 }
 
 .viewDetails:hover {
-  color: #000000;
+  color: #005fec;
 }
 
 .badge {
@@ -72,7 +72,7 @@
 
 .deleteBtn {
   padding: 8px 16px;
-  background-color: #e53935;
+  background-color: #f3605e;
   color: white;
   border: none;
   border-radius: 4px;

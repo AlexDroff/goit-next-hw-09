@@ -8,12 +8,24 @@
   margin: 0px auto;
   padding: 0 16px 16px;
 }
+.homeWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  gap: 40px;
+}
+.textWrapper {
+  flex-direction: column;
+  max-width: 600px;
+  margin-right: 40px;
+}
 
 .title {
-  font-size: 36px;
+  font-size: 48px;
   font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 60px;
+  color: #75b5fb;
+  margin-top: 60px;
   text-align: center;
 }
 
@@ -21,5 +33,17 @@
   font-size: 18px;
   color: #444444;
   line-height: 28px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.imageWrapper {
+  margin: 2rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.imageWrapper img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
 }

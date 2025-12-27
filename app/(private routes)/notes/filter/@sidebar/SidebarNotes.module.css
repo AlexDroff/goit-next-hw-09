@@ -1,3 +1,6 @@
+.container {
+  margin-top: 40px;
+}
 .menuList {
   list-style-type: none;
   margin: 0;
@@ -11,8 +14,7 @@
 .menuLink {
   text-decoration: none;
   color: #ffffff;
-  background-color: #005fec;
-
+  background-color: #75b5fb;
   font-size: 16px;
   display: block;
   padding: 8px 16px;

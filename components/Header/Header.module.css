@@ -24,6 +24,7 @@
   padding: 0;
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 .navigation li a {
@@ -34,4 +35,18 @@
 
 .navigation li a:hover {
   color: #ddd;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logoLink span {
+  line-height: 1;
 }
